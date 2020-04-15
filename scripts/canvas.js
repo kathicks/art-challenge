@@ -4,6 +4,25 @@ function setup() {
 
 function draw() {
   square(topLeftPoint().x, topLeftPoint().y, gridDimension());
+
+  const divisions = gridDimension() / 10
+
+  for (let i = 1; i < 10; i++) {
+    const increment = divisions * i;
+
+    line(
+      topLeftPoint().x + increment,
+      topLeftPoint().y,
+      topLeftPoint().x + increment,
+      topLeftPoint().y + gridDimension()
+    )
+    line(
+      topLeftPoint().x,
+      topLeftPoint().y + increment,
+      topLeftPoint().x + gridDimension(),
+      topLeftPoint().y + increment
+    )
+  }
 }
 
 const gridDimension = () => {
