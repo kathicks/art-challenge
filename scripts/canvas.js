@@ -3,8 +3,10 @@ function setup() {
 }
 
 function draw() {
-  frameRate(1);
+  frameRate(0.5);
 
+  clear()
+  noFill();
   square(topLeftPoint().x, topLeftPoint().y, gridDimension());
 
   const divisions = gridDimension() / 10
@@ -33,13 +35,16 @@ function draw() {
   }
 
   for (let i = 1; i < 20; i++) {
+    fill(colors[i])
     circle(
-        possibleXCoordinates[Math.floor((Math.random() * (10 - 1)) + 1)],
-        possibleYCoordinates[Math.floor((Math.random() * (10 - 1)) + 1)],
+        possibleXCoordinates[getRandomInt(10)],
+        possibleYCoordinates[getRandomInt(10)],
         divisions / 2
     );
   }
 }
+
+const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
 
 const gridDimension = () => {
   const maxExtent = min([windowWidth, windowHeight])
@@ -57,3 +62,30 @@ const topLeftPoint = () => ({
   x: centralPoint().x - gridDimension()/2,
   y: centralPoint().y - gridDimension()/2
 })
+
+const colors = [
+    '#4098b3',
+    '#4091b5',
+    '#408bb6',
+    '#4084b7',
+    '#407db8',
+    '#4076b9',
+    '#406fba',
+    '#4068bb',
+    '#4060bc',
+    '#4059bd',
+    '#4051be',
+    '#4049bf',
+    '#4142c0',
+    '#4841c0',
+    '#5042c1',
+    '#5942c1',
+    '#6143c2',
+    '#6a43c2',
+    '#7244c3',
+    '#7b44c3',
+    '#8345c4',
+    '#8b45c4',
+    '#9446c5',
+    '#9c47c5'
+]
