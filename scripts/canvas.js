@@ -2,6 +2,8 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
 }
 
+const colours = getRandomColours();
+
 function draw() {
     frameRate(0.5);
 
@@ -13,8 +15,6 @@ function draw() {
     grid.setPosition(windowWidth / 2 - grid.extent / 2, windowHeight / 2 - grid.extent / 2)
     grid.setGridLines(config.gridDivisions)
     grid.draw()
-
-    const colours = getRandomColours();
 
     for (let i = 1; i < config.circles; i++) {
         new Circle()
@@ -31,15 +31,17 @@ function draw() {
     }
 }
 
-const getRandomInt = (max) => {
+function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-const getRandomColours = () => {
+function getRandomColours() {
     let colours = [];
 
+    const generateRandomHexCode = () => `#${Math.floor(Math.random()*16777215).toString(16)}`
+
     for (let i = 0; i < config.circles; i++) {
-        colours.push(`#${Math.floor(Math.random()*16777215).toString(16)}`)
+        colours.push(generateRandomHexCode())
     }
 
     return colours;
