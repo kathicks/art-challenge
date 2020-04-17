@@ -1,8 +1,3 @@
-const config = {
-    circles: 20,
-    gridDivisions: 10
-}
-
 function setup() {
   createCanvas(windowWidth, windowHeight);
 }
@@ -39,13 +34,22 @@ function draw() {
     )
   }
 
+  let colors = [];
+
+  for (let i = 0; i < config.circles; i++) {
+    colors.push(generateRandomColour())
+  }
+
   for (let i = 1; i < config.circles; i++) {
-    fill(colors[i])
-    circle(
-        possibleXCoordinates[getRandomInt(config.gridDivisions)],
-        possibleYCoordinates[getRandomInt(config.gridDivisions)],
-        divisions / 2
-    );
+    new Circle()
+        .withColour(
+            colors[i])
+        .withCoordinates(
+            possibleXCoordinates[getRandomInt(config.gridDivisions)],
+            possibleYCoordinates[getRandomInt(config.gridDivisions)])
+        .withDiameter(
+            divisions / 2)
+        .draw()
   }
 }
 
@@ -68,29 +72,6 @@ const topLeftPoint = () => ({
   y: centralPoint().y - gridDimension()/2
 })
 
-const colors = [
-    '#4098b3',
-    '#4091b5',
-    '#408bb6',
-    '#4084b7',
-    '#407db8',
-    '#4076b9',
-    '#406fba',
-    '#4068bb',
-    '#4060bc',
-    '#4059bd',
-    '#4051be',
-    '#4049bf',
-    '#4142c0',
-    '#4841c0',
-    '#5042c1',
-    '#5942c1',
-    '#6143c2',
-    '#6a43c2',
-    '#7244c3',
-    '#7b44c3',
-    '#8345c4',
-    '#8b45c4',
-    '#9446c5',
-    '#9c47c5'
-]
+const generateRandomColour = () => {
+    return `#${Math.floor(Math.random()*16777215).toString(16)}`;
+}
