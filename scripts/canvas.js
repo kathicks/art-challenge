@@ -1,77 +1,46 @@
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+    createCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
-  frameRate(0.5);
+    frameRate(0.5);
 
-  clear()
-  noFill();
-  square(topLeftPoint().x, topLeftPoint().y, gridDimension());
+    clear()
+    noFill();
 
-  const divisions = gridDimension() / config.gridDivisions
+    const grid = new Grid()
+    grid.setExtent(windowWidth, windowHeight)
+    grid.setPosition(windowWidth / 2 - grid.extent / 2, windowHeight / 2 - grid.extent / 2)
+    grid.setGridLines(config.gridDivisions)
+    grid.draw()
 
-  let possibleXCoordinates = [topLeftPoint().x + (divisions / 2)]
-  let possibleYCoordinates = [topLeftPoint().y + (divisions / 2)]
+    const colours = getRandomColours();
 
-  for (let i = 1; i < config.gridDivisions; i++) {
-    const increment = divisions * i;
-
-    possibleXCoordinates.push(possibleXCoordinates[i - 1] + divisions)
-    possibleYCoordinates.push(possibleYCoordinates[i - 1] + divisions)
-
-    line(
-      topLeftPoint().x + increment,
-      topLeftPoint().y,
-      topLeftPoint().x + increment,
-      topLeftPoint().y + gridDimension()
-    )
-    line(
-      topLeftPoint().x,
-      topLeftPoint().y + increment,
-      topLeftPoint().x + gridDimension(),
-      topLeftPoint().y + increment
-    )
-  }
-
-  let colors = [];
-
-  for (let i = 0; i < config.circles; i++) {
-    colors.push(generateRandomColour())
-  }
-
-  for (let i = 1; i < config.circles; i++) {
-    new Circle()
-        .withColour(
-            colors[i])
-        .withCoordinates(
-            possibleXCoordinates[getRandomInt(config.gridDivisions)],
-            possibleYCoordinates[getRandomInt(config.gridDivisions)])
-        .withDiameter(
-            divisions / 2)
-        .draw()
-  }
+    for (let i = 1; i < config.circles; i++) {
+        new Circle()
+            .withColour(
+                colours[i])
+            .withCoordinates(
+                grid.getPossibleCoordinates()
+                    .possibleXCoordinates[getRandomInt(config.gridDivisions)],
+                grid.getPossibleCoordinates()
+                    .possibleYCoordinates[getRandomInt(config.gridDivisions)])
+            .withDiameter(
+                grid.extent / grid.gridDivisions / 2)
+            .draw()
+    }
 }
 
-const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
-
-const gridDimension = () => {
-  const maxExtent = min([windowWidth, windowHeight])
-  const trim = (extent) => extent - extent/20
-
-  return trim(maxExtent);
+const getRandomInt = (max) => {
+    return Math.floor(Math.random() * Math.floor(max));
 }
 
-const centralPoint = () => ({
-  x: windowWidth/2,
-  y: windowHeight/2
-})
+const getRandomColours = () => {
+    let colours = [];
 
-const topLeftPoint = () => ({
-  x: centralPoint().x - gridDimension()/2,
-  y: centralPoint().y - gridDimension()/2
-})
+    for (let i = 0; i < config.circles; i++) {
+        colours.push(`#${Math.floor(Math.random()*16777215).toString(16)}`)
+    }
 
-const generateRandomColour = () => {
-    return `#${Math.floor(Math.random()*16777215).toString(16)}`;
+    return colours;
 }
