@@ -22,9 +22,9 @@ function draw() {
                 colours[i])
             .withCoordinates(
                 grid.getPossibleCoordinates()
-                    .possibleXCoordinates[getRandomInt(config.gridDivisions)],
+                    .possibleXCoordinates[getRandomInt(grid.gridDivisions)],
                 grid.getPossibleCoordinates()
-                    .possibleYCoordinates[getRandomInt(config.gridDivisions)])
+                    .possibleYCoordinates[getRandomInt(grid.gridDivisions)])
             .withDiameter(
                 grid.pixelExtent / grid.gridDivisions / 2)
             .draw()
