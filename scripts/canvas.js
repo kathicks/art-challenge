@@ -12,7 +12,7 @@ function draw() {
 
     const grid = new Grid()
     grid.setExtent(windowWidth, windowHeight)
-    grid.setPosition(windowWidth / 2 - grid.extent / 2, windowHeight / 2 - grid.extent / 2)
+    grid.setPosition(windowWidth / 2 - grid.pixelExtent / 2, windowHeight / 2 - grid.pixelExtent / 2)
     grid.setGridLines(config.gridDivisions)
     grid.draw()
 
@@ -26,7 +26,7 @@ function draw() {
                 grid.getPossibleCoordinates()
                     .possibleYCoordinates[getRandomInt(config.gridDivisions)])
             .withDiameter(
-                grid.extent / grid.gridDivisions / 2)
+                grid.pixelExtent / grid.gridDivisions / 2)
             .draw()
     }
 }
