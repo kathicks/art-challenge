@@ -1,8 +1,8 @@
 class Grid {
 
     setExtent(windowWidth, windowHeight) {
-        const maxExtent = min([windowWidth, windowHeight])
-        this.extent = maxExtent - maxExtent/20
+        const maximumExtent = min([windowWidth, windowHeight])
+        this.pixelExtent = maximumExtent - maximumExtent/20
     }
 
     setPosition(topLeftXCoordinate, topLeftYCoordinate) {
@@ -12,40 +12,40 @@ class Grid {
 
     setGridLines(gridDivisions) {
         this.gridDivisions = gridDivisions
+        this.pixelIncrement = this.pixelExtent / this.gridDivisions
         this.horizontalAxes = []
         this.verticalAxes = []
-        this.increments = this.extent / this.gridDivisions
 
         for (let i = 1; i < this.gridDivisions; i++) {
             this.horizontalAxes.push({
                 leftXCoordinate: this.topLeftXCoordinate,
-                leftYCoordinate: this.topLeftYCoordinate + this.increments * i,
-                rightXCoordinate: this.topLeftXCoordinate + this.extent,
-                rightYCoordinate: this.topLeftYCoordinate + this.increments * i
+                leftYCoordinate: this.topLeftYCoordinate + this.pixelIncrement * i,
+                rightXCoordinate: this.topLeftXCoordinate + this.pixelExtent,
+                rightYCoordinate: this.topLeftYCoordinate + this.pixelIncrement * i
             })
             this.verticalAxes.push({
-                topXCoordinate: this.topLeftXCoordinate + this.increments * i,
+                topXCoordinate: this.topLeftXCoordinate + this.pixelIncrement * i,
                 topYCoordinate: this.topLeftYCoordinate,
-                bottomXCoordinate: this.topLeftXCoordinate + this.increments * i,
-                bottomYCoordinate: this.topLeftYCoordinate + this.extent
+                bottomXCoordinate: this.topLeftXCoordinate + this.pixelIncrement * i,
+                bottomYCoordinate: this.topLeftYCoordinate + this.pixelExtent
             })
         }
     }
 
     getPossibleCoordinates() {
-        let possibleXCoordinates = [this.topLeftXCoordinate + (this.increments / 2)]
-        let possibleYCoordinates = [this.topLeftYCoordinate + (this.increments / 2)]
+        let possibleXCoordinates = [this.topLeftXCoordinate + (this.pixelIncrement / 2)]
+        let possibleYCoordinates = [this.topLeftYCoordinate + (this.pixelIncrement / 2)]
 
         for (let i = 1; i < this.gridDivisions; i++) {
-            possibleXCoordinates.push(possibleXCoordinates[i - 1] + this.increments)
-            possibleYCoordinates.push(possibleYCoordinates[i - 1] + this.increments)
+            possibleXCoordinates.push(possibleXCoordinates[i - 1] + this.pixelIncrement)
+            possibleYCoordinates.push(possibleYCoordinates[i - 1] + this.pixelIncrement)
         }
 
         return { possibleXCoordinates, possibleYCoordinates }
     }
 
     draw() {
-        square(this.topLeftXCoordinate, this.topLeftYCoordinate, this.extent);
+        square(this.topLeftXCoordinate, this.topLeftYCoordinate, this.pixelExtent);
         this.horizontalAxes.forEach((axis) => {
             line(
               axis.leftXCoordinate,
